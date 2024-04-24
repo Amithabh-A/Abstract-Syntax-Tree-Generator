@@ -2,6 +2,7 @@ all : clear yacc lex compile
 
 clear : 
 	clear
+	mkdir bin
 
 yacc : 
 	bison -d src/compiler.y -o compiler.cc
@@ -21,3 +22,4 @@ run :
 clean : 
 	rm include/compiler.hh src/compiler.cc bin/compiler src/lex.yy.c 
 	rm -rf bin/compiler.dSYM
+	rm -rf bin

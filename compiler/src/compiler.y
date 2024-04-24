@@ -4,13 +4,15 @@
 #include<cstring>
 #include<unordered_map>
 #include<vector>
+#include<stack>
 #include "../include/compiler.h"
-#define UNDEFINED 2
+#define UNDEFINED INT_MAX
 using namespace std;
 int yylex();
 void yyerror( char* );
 unordered_map<string, int>symbol_table;
 vector<const node*>statement_list;
+stack<int>st;
 
 void printStatement(node* statement);
 void printTree(vector<const node*> statement_list);
@@ -62,11 +64,11 @@ void printTree(vector<const node*> statement_list);
 		;
 		
   Gdecl 	:	ret_type Glist ';'
-//      {
+      {
 //        cout<<"Gdecl\n";
-//        statement_list.push_back($2);
+        statement_list.push_back($2);
 //            for(auto it : statement_list)cout<<it->Type<<" ";cout<<"\n";
-//      }
+      }
 		;
 		
 	ret_type:	T_INT		{ }
@@ -78,6 +80,7 @@ void printTree(vector<const node*> statement_list);
                 node *newNode = new node();
                 newNode->Type = declaration;
                 newNode->value = UNDEFINED;
+                symbol_table[$1->name] = UNDEFINED;
                 newNode->name = $1->name;
                 newNode->lt = NULL;
                 newNode->rt = NULL;
@@ -89,6 +92,7 @@ void printTree(vector<const node*> statement_list);
                 node *newNode = new node();
                 newNode->Type = declaration;
                 newNode->value = UNDEFINED;
+                symbol_table[$1->name] = UNDEFINED;
                 newNode->name = $1->name;
                 newNode->lt = NULL;
                 newNode->rt = NULL;
@@ -202,11 +206,11 @@ void printTree(vector<const node*> statement_list);
 //            }
 
 
-            while(temp != NULL)
-            {
-              cout<<temp->name<<" ";
-              temp = temp->next;
-            }
+            // while(temp != NULL)
+            // {
+            //   cout<<temp->name<<" ";
+            //   temp = temp->next;
+            // }
             cout<<"\n";
           }
 		|	cond_stmt 		// { cout<<"cond_stmt end\n";}
@@ -219,24 +223,41 @@ void printTree(vector<const node*> statement_list);
 
   write_stmt: WRITE '(' Wlist ')' {// cout<<"write_stmt inside end\n";
      $$ = $3;
+     while (!st.empty()){
+        cout << st.top() << " ";
+        st.pop();
+     }
+     cout << "\n";
     }
   ;
 
   Wlist : Wid 
         {
 //           cout<<"entered Wid\n";
-          $1->Type = print;
-          $1->value = symbol_table[$1->name];
-          cout<<symbol_table[$1->name]<<"\n";
-          $$ = $1;
+          if(symbol_table.find($1->name) == symbol_table.end()){
+            cout << "variable " << $1->name << " not declared\n";
+            $1->Type = error;
+            $1->value = UNDEFINED;
+          } else if(symbol_table[$1->name] == UNDEFINED){
+              cout << "variable " << $1->name << " not initialized\n";
+            $1->Type = error;
+            $1->value = UNDEFINED;
+          } else {
+            $1->Type = print;
+            $1->value = symbol_table[$1->name];
+            // cout<<symbol_table[$1->name]<<"\n";
+            st.push($1->value);
+            $$ = $1;
 //           cout<<"exiting Wid\n";
+          }
         }
         
   | Wid ',' Wlist
         {
           $1->Type = print;
           $1->value = symbol_table[$1->name];
-          cout<<symbol_table[$1->name]<<"\n";
+          // cout<<symbol_table[$1->name]<<"\n";
+          st.push($1->value);
           $1->next = $3;
           $$ = $1;
         }
@@ -252,15 +273,25 @@ void printTree(vector<const node*> statement_list);
 	
 	assign_stmt:	var_expr '=' expr
         {
+          if(symbol_table.find($1->name) == symbol_table.end())
+          {
+            cout<<"Variable "<<$1->name<<" not declared\n";
+            node *newNode = new node();
+            newNode->Type = error;
+            newNode->value = UNDEFINED;
+            $$ = newNode;
+          } else {
           symbol_table[$1->name] = $3->value;
           node *newNode = new node();
           newNode->Type = assign;
           newNode->value = $3->value;
+          symbol_table[$1->name] = $3->value;
           newNode->name = $1->name;
           newNode->lt = $1;
           newNode->rt = $3;
           newNode->next = NULL;
           $$ = newNode;
+          } 
         }
 		;
 
@@ -357,22 +388,19 @@ void printTree(vector<const node*> statement_list);
         {
           node *newNode = new node();
           newNode->Type = Div;
-//           cout<<"before /\n";
           if($3->value == 0)
           {
             cout<<"ZeroDivisionError\n";
-            exit(1);
+            newNode->value = UNDEFINED;
+          } else {
+            newNode->value = (int)(($1->value)/($3->value));
           }
-          newNode->value = (int)(($1->value)/($3->value));
-//           cout<<newNode->value<<"\n";
-//           cout<<"after /\n";
-          newNode->name = NULL;
-          newNode->lt = $1;
-          newNode->rt = $3;
-          newNode->next = NULL;
-          $$ = newNode;
+            newNode->name = NULL;
+            newNode->lt = $1;
+            newNode->rt = $3;
+            newNode->next = NULL;
+            $$ = newNode;
         }
-
 		;
 	
 	var_expr:	VAR	
@@ -382,6 +410,7 @@ void printTree(vector<const node*> statement_list);
         if(symbol_table.find($1->name) != symbol_table.end())
         {
           newNode->value = symbol_table[$1->name];
+          // cout << "hehehe " << $1->name << newNode->value << "\n";
         }
         else newNode->value = UNDEFINED;
         newNode->name = $1->name;
@@ -405,8 +434,13 @@ void printTree(vector<const node*> statement_list)
   for(auto it : reversed_statement_list)
   {
     if (it->Type == assign){ 
-        cout<<"ASSIGN ";
-        cout<<it->name<<" "<<it->value<<"\n";
+        if(it->value != UNDEFINED){
+          cout<<"ASSIGN ";
+          cout<<it->name<<" "<<it->value<<"\n";
+        } else {
+          cout<<"ASSIGN ";
+          cout<<it->name<<" UNDEFINED_VALUE\n";
+        }
     }
     else if(it->Type == print){ 
         cout<<"CALL print ";

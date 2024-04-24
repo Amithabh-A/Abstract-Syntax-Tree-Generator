@@ -1,28 +1,26 @@
 using namespace std;
 
-typedef enum type{
-  assign, 
+typedef enum type {
+  assign,
   print,
   declaration,
 
-  add, 
-  sub, 
-  mul, 
+  add,
+  sub,
+  mul,
   Div,
 
-  constant
-}type;
+  constant,
+  error
+} type;
 
-typedef struct node{
+typedef struct node {
   type Type;
   int value;
-  char* name; 
+  char *name;
   node *lt;
   node *rt;
   node *next;
 
-  node(){
-    
-  }
-}node;
-
+  node() {}
+} node;
