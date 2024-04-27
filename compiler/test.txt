@@ -1,0 +1,8 @@
+decl
+integer a[5];
+enddecl
+begin
+a[0] = 1;
+print(a[0]);
+return 0;
+end

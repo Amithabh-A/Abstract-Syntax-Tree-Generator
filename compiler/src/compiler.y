@@ -96,7 +96,7 @@ bool getBoolValue(std::variant<int, bool> value);
         node *temp = $1;
         insertNext($1, $2);
         $$ = $1;
-        globalStatementList = $1;
+        // globalStatementList = $1;
         // cout << "main's type : " << $2->Type << "\n";
       }
       
@@ -305,6 +305,7 @@ bool getBoolValue(std::variant<int, bool> value);
 		|	write_stmt ';'		
           { 
             $$ = createNode(printStmt, UNDEFINED, NULL, NULL, $1);
+            globalStatementList = $$;
             // cout << "statement - write_stmt end\n";
             // node* temp = $1;
             // some comments deleted. Check commits in April 5. 
@@ -363,12 +364,12 @@ bool getBoolValue(std::variant<int, bool> value);
   | error ';' {cout<<"error Wlist\n";}
   ;
 
-	Wid	:	VAR		{ 				}
-		|	Wid '[' NUM ']'	{ }
+	Wid	:	VAR		{$$ = createNode(var, UNDEFINED, $1->name);}
+		|	Wid '[' NUM ']'	{ 
+        $$ = createNode(Array, getIntValue($3->value), $1->name);
+      }
     | error ';' {cout<<"error Wid\n";}
-
 		;
-		
 
 
 	
@@ -626,19 +627,7 @@ bool getBoolValue(std::variant<int, bool> value);
       }
 		|	var_expr '[' expr ']'	
       {                                                 
-        // semantics
-        // check whether array is declared, if not return error. 
-        // if array is declared, check bound of the array. If out of bounds, return error.
-        //if(array_table.find($1->name) == array_table.end())
-        //{
-        //  cout<<"Array not declared\n";
-        //} else if(sizeof(array_table[$1->name])/sizeof(int) <= getIntValue($3->value)) {
-        //  cout<<"Array out of bounds\n";
-        //} else {
-          // $$ = createNode(assignArray, array_table[$1->name][getIntValue($3->value)], $1->name, NULL, $3);
           $$ = createNode(assignArray, getIntValue($3->value), $1->name, NULL, $3);
-          // cout << "var_expr - VAR array\n";
-        // }
       }
     | error ';' {cout<<"error in var_expr\n";}
 		;
@@ -652,7 +641,7 @@ extern int yydebug;
 // yydebug = 1;
 yyparse();
 // cout<<"Size of statement list : "<<statement_list.size()<<"\n";
-// nodeImage(globalStatementList);
+nodeImage(globalStatementList);
 cout<<"\n\n\nprintTree\n";
 printTree(globalStatementList);
 

@@ -98,6 +98,7 @@ void printNode(const node *node, int param = 0) {
     break;
   case printStmt:
     cout << "PRINT ";
+    cout << "Type : " << node->rt->Type << "\n";
     printNode(node->rt, param);
     break;
   case conditionStmt:
@@ -279,11 +280,9 @@ void nodeImage(node *node) {
     cout << "nullvalue\n";
     return;
   }
-  // cout << "NODE ID : " << node << "\n";
 
   cout << "\n";
-  // cout << "Type : " << node->Type << "\nvalue: " <<
-  // std::get<int>(node->value);
+  cout << "Type : " << node->Type << "\nvalue: " << std::get<int>(node->value);
 
   if (node->name == NULL) {
     cout << "name: NULL\n";
