@@ -3,7 +3,8 @@ BINDIR = /bin
 
 .PHONY: create_bin_dir
 
-all : create clear yacc lex compile 
+mac : create clear yacc lex compileMac
+linux : create clear yacc lex compileLinux
 
 create:
 	mkdir -p bin
@@ -21,17 +22,24 @@ lex :
 	flex src/compiler.l 
 	mv lex.yy.c src/
 
-compile : 
+compileLinux : 
 	g++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp -I include/compiler.h -o bin/compiler
 
-run : clear new_execute
+compileMac : 
+	clang++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp src/codegen.cpp -I src/functions.h -I include/compiler.h -o bin/compiler
 
-test: clear old_execute
+run : clear execute
 
-old_execute : 
+mdebug: clear macDebugger
+ldebug: clear linuxDebugger
+
+macDebugger : 
 	gdb ./bin/compiler 
 
-new_execute:
+linuxDebugger : 
+	lldb ./bin/compiler 
+
+execute:
 	./bin/compiler < test/input.sil > test/output.txt
 
 clean : 

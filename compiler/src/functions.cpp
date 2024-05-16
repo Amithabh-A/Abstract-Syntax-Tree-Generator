@@ -1,129 +1,23 @@
-#include "../include/compiler.h"
-#include <climits>
+#include "../include/functions.h"
+
 #include <iostream>
 #include <map>
+#include <string.h>
 #include <string>
 #include <unordered_map>
 #include <variant>
-#include <vector>
-#include <string.h>
-#include <fstream>
 
-#define UNDEFINED INT_MAX
-#define NOT_INITIALIZED INT_MIN
+// #ifndef UNDEFINED
+// #define UNDEFINED INT_MAX
+// #endif
+//
+// #ifndef NOT_INITIALIZED
+// #define NOT_INITIALIZED INT_MIN
+// #endif
 
 using namespace std;
 
-void writeLine(std::string str = "<EMPTY STRING>", const std::string& filePath = "test/codegen.s") {
-    // Open the file in append mode
-    std::ofstream outFile(filePath, std::ios::app);
-    str += "\n";
-
-    if (outFile.is_open()) {
-        // Write the string to the end of the file
-        outFile << str;
-        // Close the file
-        outFile.close();
-    } else {
-        std::cerr << "Unable to open the file: " << filePath << std::endl;
-    }
-}
-
-void printTree(node *stmt_list, type Type);
-bool is_statement(type value);
-
-node *createNode(type Type, std::variant<int, bool> value = UNDEFINED,
-                 const char *name = NULL, node *leftTree = NULL,
-                 node *rightTree = NULL, node *next = NULL, node *expr = NULL,
-                 node *ifTrue = NULL, node *ifFalse = NULL, node *init = NULL,
-                 node *condition = NULL, node *update = NULL, node *body = NULL,
-                 node *returnStmt = NULL) {
-  node *newNode = new node();
-  newNode->Type = Type;
-  newNode->value = value;
-  newNode->name =
-      name ? strdup(name) : NULL; // strdup - str dup - string duplicate fn in
-                                  // c. Ensure deep copy of name
-  // NOTE : NULL is used with pointer data types only.
-  // If value is not being assigned, we will just assign it with UNDEFINED.
-  newNode->lt = leftTree;
-  newNode->rt = rightTree;
-  newNode->next = next;
-  newNode->expr = expr;
-  newNode->ifTrue = ifTrue;
-  newNode->ifFalse = ifFalse;
-  newNode->init = init;
-  newNode->condition = condition;
-  newNode->update = update;
-  newNode->body = body;
-  newNode->returnStmt = returnStmt;
-  return newNode;
-}
-
-std::variant<int, bool>
-getSymbolValue(const string &name,
-               unordered_map<string, std::variant<int, bool>> &symbol_table) {
-  if (symbol_table.find(name) == symbol_table.end()) {
-    // cout << "error: " << name << " not declared\n";
-    return UNDEFINED;
-  }
-  return symbol_table[name];
-}
-
-int getIntValue(std::variant<int, bool> value) { return std::get<int>(value); }
-
-void setSymbolValue(
-    const string &name, std::variant<int, bool> value,
-    unordered_map<string, std::variant<int, bool>> symbol_table) {
-  symbol_table[name] = value;
-  int x = getIntValue(getSymbolValue(name, symbol_table));
-  // cout << "success: " << name << " = " << x << "\n";
-}
-
-
-void ProgInitAssembly() {
-    string s;
-    s = "	.file	1 \"test.c\"";
-    writeLine(s);
-    s = "	.section .mdebug.abi32";
-    writeLine(s);
-    s = "	.previous";
-    writeLine(s);
-    s = "	.nan	legacy";
-    writeLine(s);
-    s = "	.module	fp=xx";
-    writeLine(s);
-    s = "	.module	nooddspreg";
-    writeLine(s);
-    s = "	.abicalls";
-    writeLine(s);
-    s = "	.text";
-    writeLine(s);
-}
-
-void ProgEndAssembly() {
-    string s;
-    s = "	jr	$31";
-    writeLine(s);
-    s = "	nop";
-    writeLine(s);
-    s = "";
-    writeLine(s);
-    s = "	.set	macro";
-    writeLine(s);
-    s = " .set	reorder";
-    writeLine(s);
-    s = " .end	main";
-    writeLine(s);
-    s = " .size	main, .-main";
-    writeLine(s);
-    s = "	.ident	\"GCC: (Ubuntu 10.5.0-4ubuntu2) 10.5.0\"";
-    writeLine(s);
-    s = "	.section	.note.GNU-stack,\"\",@progbits";
-    writeLine(s);
-}
-
-void printNode(const node *node, int param = 0) {
+void printNode(const node *node, int param) {
   if (node == NULL) {
     cout << "NODE IS NULL\n";
     return;
@@ -135,10 +29,10 @@ void printNode(const node *node, int param = 0) {
   switch (node->Type) {
   case Prog:
     // cout << "<Prog>\n";
-    ProgInitAssembly();
+    // ProgInitAssembly();
     printNode(node->lt, param);
     printNode(node->rt, param);
-    ProgEndAssembly();
+    // ProgEndAssembly();
     // cout << "</Prog>\n";
     break;
   case declaration_stmtlist: // Gdecl_stmt
@@ -480,7 +374,8 @@ void NodeImage(node *node) {
 
 void printTree(node *stmt_list, type Type) {
   node *temp = stmt_list;
-  while (temp != NULL && (temp->Type == Type || Type == statementList && is_statement(temp->Type))) {
+  while (temp != NULL && (temp->Type == Type ||
+                          Type == statementList && is_statement(temp->Type))) {
     printNode(temp);
     temp = temp->next;
   }
@@ -568,4 +463,49 @@ int get_array_element(string name, int index,
     return NOT_INITIALIZED;
   }
   return array_table[name].first[index];
+}
+
+node *createNode(type Type, std::variant<int, bool> value, const char *name,
+                 node *leftTree, node *rightTree, node *next, node *expr,
+                 node *ifTrue, node *ifFalse, node *init, node *condition,
+                 node *update, node *body, node *returnStmt) {
+  node *newNode = new node();
+  newNode->Type = Type;
+  newNode->value = value;
+  newNode->name =
+      name ? strdup(name) : NULL; // strdup - str dup - string duplicate fn in
+                                  // c. Ensure deep copy of name
+  // NOTE : NULL is used with pointer data types only.
+  // If value is not being assigned, we will just assign it with UNDEFINED.
+  newNode->lt = leftTree;
+  newNode->rt = rightTree;
+  newNode->next = next;
+  newNode->expr = expr;
+  newNode->ifTrue = ifTrue;
+  newNode->ifFalse = ifFalse;
+  newNode->init = init;
+  newNode->condition = condition;
+  newNode->update = update;
+  newNode->body = body;
+  newNode->returnStmt = returnStmt;
+  return newNode;
+}
+
+std::variant<int, bool>
+getSymbolValue(const string &name,
+               unordered_map<string, std::variant<int, bool>> &symbol_table) {
+  if (symbol_table.find(name) == symbol_table.end()) {
+    // cout << "error: " << name << " not declared\n";
+    return UNDEFINED;
+  }
+  return symbol_table[name];
+}
+
+int getIntValue(std::variant<int, bool> value) { return std::get<int>(value); }
+
+void setSymbolValue(
+    const string &name, std::variant<int, bool> value,
+    unordered_map<string, std::variant<int, bool>> symbol_table) {
+  symbol_table[name] = value;
+  int x = getIntValue(getSymbolValue(name, symbol_table));
 }

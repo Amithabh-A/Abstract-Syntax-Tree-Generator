@@ -1,3 +1,6 @@
+#ifndef COMPILER_H
+#define COMPILER_H
+
 #include <variant>
 
 typedef enum type {
@@ -94,3 +97,5 @@ typedef struct node {
 
   node() {}
 } node;
+
+#endif

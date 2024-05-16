@@ -1,4 +1,5 @@
 %{	
+#include "../include/functions.h"
 #include <climits>
 #define parse.error verbose
 #define YYDEBUG 1
@@ -10,11 +11,17 @@
 #include<vector>
 #include<map>
 #include<string>
-#include "../include/compiler.h"
 #include <type_traits>
 #include<unordered_map>
-#define UNDEFINED INT_MAX
-#define NOT_INITIALIZED INT_MIN
+
+// #ifndef UNDEFINED
+// #define UNDEFINED INT_MAX
+// #endif
+// 
+// #ifndef NOT_INITIALIZED
+// #define NOT_INITIALIZED INT_MIN
+// #endif
+
 using namespace std;
 int yylex();
 void yyerror( char* );
@@ -29,12 +36,10 @@ void NodeImage(node *node) ;
 bool is_statement(type value);
 void insertNext(node *stmt_list, node *stmt) ;
 
-node *createNode(type Type, std::variant<int, bool> value = UNDEFINED,
-                 const char *name = NULL, node *leftTree = NULL,
-                 node *rightTree = NULL, node *next = NULL, node *expr = NULL,
-                 node *ifTrue = NULL, node *ifFalse = NULL, node *init = NULL,
-                 node *condition = NULL, node *update = NULL, node *body = NULL,
-                 node *returnStmt = NULL);
+node *createNode(type Type, std::variant<int, bool> value, const char *name,
+                 node *leftTree, node *rightTree, node *next, node *expr,
+                 node *ifTrue, node *ifFalse, node *init, node *condition,
+                 node *update, node *body, node *returnStmt);
 
 std::variant<int, bool> getSymbolValue(
     const string &name,
