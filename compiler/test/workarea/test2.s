@@ -1,4 +1,4 @@
-	.file	1 "test.c"
+	.file	1 "test2.c"
 	.section .mdebug.abi32
 	.previous
 	.nan	legacy
@@ -12,6 +12,12 @@
 	.type	a, @object
 	.size	a, 4
 a:
+	.space	4
+	.globl	b
+	.align	2
+	.type	b, @object
+	.size	b, 4
+b:
 	.space	4
 	.text
 	.align	2

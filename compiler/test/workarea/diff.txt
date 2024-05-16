@@ -1,11 +1,4 @@
-	jr	$31
-	nop
-
-	.set	macro
-	.set	reorder
-	.end	main
-	.size	main, .-main
-	.ident	"GCC: (Ubuntu 10.5.0-4ubuntu2) 10.5.0"
-	.section	.note.GNU-stack,"",@progbits
-
-
+1c1
+< 	.file	1 "test1.c"
+---
+> 	.file	1 "test2.c"

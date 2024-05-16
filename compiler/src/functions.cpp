@@ -29,7 +29,7 @@ void writeLine(std::string str = "<EMPTY STRING>", const std::string& filePath =
     }
 }
 
-void printTree(node *stmt_list);
+void printTree(node *stmt_list, type Type);
 bool is_statement(type value);
 
 node *createNode(type Type, std::variant<int, bool> value = UNDEFINED,
@@ -145,7 +145,7 @@ void printNode(const node *node, int param = 0) {
     // declaration statement list is a statement list .
     // it should be managed by printTree.
     // cout << "<declaration_stmtlist>\n";
-    printTree(node->next);
+    printTree(node->next, declarationStmt);
     // cout << "</declaration_stmtlist>\n";
     break;
   case declarationStmt:
@@ -183,7 +183,7 @@ void printNode(const node *node, int param = 0) {
     break;
   case Main:
     // cout << "<Main>\n";
-    printTree(node->body);
+    printTree(node->body, statementList);
     cout << "\n";
     printNode(node->returnStmt, param);
     // cout << "</Main>\n";
@@ -245,7 +245,7 @@ void printNode(const node *node, int param = 0) {
     cout << "IF ";
     printNode(node->expr, param);
     cout << "\n";
-    printTree(node->ifTrue);
+    printTree(node->ifTrue, statementList);
     cout << "ENDIF\n";
     // cout << "</ifStmt>\n";
     break;
@@ -254,9 +254,9 @@ void printNode(const node *node, int param = 0) {
     cout << "IF ";
     printNode(node->expr, param);
     cout << "\n";
-    printTree(node->ifTrue);
+    printTree(node->ifTrue, statementList);
     cout << "ELSE\n";
-    printTree(node->ifFalse);
+    printTree(node->ifFalse, statementList);
     cout << "ENDIF\n";
     // cout << "</ifElseStmt>\n";
     break;
@@ -271,7 +271,7 @@ void printNode(const node *node, int param = 0) {
     cout << "UPDATE ";
     printNode(node->update, param);
     cout << "\n";
-    printTree(node->body);
+    printTree(node->body, statementList);
     cout << "ENDFOR\n\n";
     // cout << "</forStmt>\n";
     break;
@@ -478,10 +478,9 @@ void NodeImage(node *node) {
 //   free(temp);
 // }
 
-void printTree(node *stmt_list) {
+void printTree(node *stmt_list, type Type) {
   node *temp = stmt_list;
-  while (temp != NULL) {
-    // cout << "type : " << temp->Type << " ";
+  while (temp != NULL && (temp->Type == Type || Type == statementList && is_statement(temp->Type))) {
     printNode(temp);
     temp = temp->next;
   }

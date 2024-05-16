@@ -23,7 +23,7 @@ vector<const node*>statement_list;
 unordered_map<string, std::variant<int, bool>>symbol_table;
 map<string, pair<int *, int>> array_table;
 
-void printTree(node *stmt_list);
+void printTree(node *stmt_list, type Type);
 void printWholeTree(node* stmt_list);
 void NodeImage(node *node) ;
 bool is_statement(type value);
@@ -345,6 +345,6 @@ yyparse();
 // cout<<"Size of statement list : "<<statement_list.size()<<"\n";
 // NodeImage(globalStatementList);
 cout<<"\n\n\nprintTree\n";
-printTree(globalStatementList);
+printTree(globalStatementList, Prog);
 if(globalStatementList == NULL)cout<<"haha\n root is null\n";
 }
