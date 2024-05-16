@@ -351,5 +351,6 @@ yyparse();
 // NodeImage(globalStatementList);
 cout<<"\n\n\nprintTree\n";
 printTree(globalStatementList, Prog);
+codegen(globalStatementList);
 if(globalStatementList == NULL)cout<<"haha\n root is null\n";
 }
