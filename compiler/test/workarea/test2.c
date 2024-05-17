@@ -1,6 +1,6 @@
 #include<stdio.h>
-int a,b;
+int a, b;
 
 int main(){
-  a = 2 + 3 + 4;
+  b = 3+2;
 }

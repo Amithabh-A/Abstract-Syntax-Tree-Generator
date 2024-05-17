@@ -265,6 +265,7 @@ void codegen(node *ast, const std::string &filePath) {
   }
 
   // return stmt
+  // if the statement is return 0, nothing is there to write. 
   node *ret_stmt = mymain->returnStmt;
 
   MainEndAssembly(filePath);

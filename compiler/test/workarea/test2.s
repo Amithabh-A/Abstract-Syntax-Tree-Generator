@@ -35,9 +35,9 @@ main:
 	addiu	$sp,$sp,-8
 	sw	$fp,4($sp)
 	move	$fp,$sp
-	lui	$2,%hi(a)
-	li	$3,9			# 0x9
-	sw	$3,%lo(a)($2)
+	lui	$2,%hi(b)
+	li	$3,5			# 0x5
+	sw	$3,%lo(b)($2)
 	move	$2,$0
 	move	$sp,$fp
 	lw	$fp,4($sp)

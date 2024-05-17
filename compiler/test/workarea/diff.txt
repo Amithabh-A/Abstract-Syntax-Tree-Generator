@@ -3,6 +3,6 @@
 ---
 > 	.file	1 "test2.c"
 37a38,40
-> 	lui	$2,%hi(a)
-> 	li	$3,9			# 0x9
-> 	sw	$3,%lo(a)($2)
+> 	lui	$2,%hi(b)
+> 	li	$3,5			# 0x5
+> 	sw	$3,%lo(b)($2)
