@@ -1,23 +1,13 @@
+#include "../include/functions.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 using namespace std;
 
-void createFile(const std::string &fileName) {
-  std::ofstream file(fileName);
-  if (file.is_open()) {
-    std::cout << "File '" << fileName << "' created successfully." << std::endl;
-    // Optionally, you can write something into the file here
-    file.close();
-  } else {
-    std::cerr << "Unable to create file '" << fileName << "'." << std::endl;
+void expressionEvaluator(node *e1, node *e2, const std::string &filePath) {
+  if (e1->Type == constant && e2->Type == constant) {
+    string s;
+    s = "li	$3,4			# 0x4";
+    writeLine(s, filePath);
   }
-}
-
-int main() {
-  std::string fileName;
-  std::cout << "Enter the file name: ";
-  std::cin >> fileName;
-  createFile(fileName);
-  return 0;
 }
