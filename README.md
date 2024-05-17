@@ -1,7 +1,7 @@
 112101004
 Amithabh A
 
-# NOTES
+# Disclaimer
 
 - The assignment-4 tagged commit will only work on assignment 3 testcases
 - Code generation happens for declaration statements and main program(including `return 0`), but not happens for other statements.
