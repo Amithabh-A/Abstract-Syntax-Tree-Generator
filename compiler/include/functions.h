@@ -4,11 +4,11 @@
 
 #include "../include/compiler.h"
 
+#include <limits.h>
 #include <map>
 #include <string>
 #include <unordered_map>
 #include <variant>
-#include <limits.h>
 #include <vector>
 #define UNDEFINED INT_MAX
 #define NOT_INITIALIZED INT_MIN
@@ -54,17 +54,20 @@ int get_array_element(string name, int index,
                       map<string, pair<int *, int>> array_table);
 
 // codegen.cpp
+
+void createFile(std::string &fileName);
+
 void writeLine(std::string str = "<EMPTY STRING>",
                const std::string &filePath = "test/codegen.s");
-void codegen(node *ast);
+void codegen(node *ast, const std::string &filePath = "test/codegen.s");
 
 vector<pair<type, pair<string, int>>> collectDeclarationNodes(node *GdeclSec);
 
-void ProgInitAssembly();
-void insertVariable(string name, int value, bool isFirstVariable);
-void ProgEndAssembly();
-void MainInitAssembly();
-void MainEndAssembly();
-
+void ProgInitAssembly(const std::string &filePath);
+void insertVariable(const std::string &filePath, string name, int value,
+                    bool isFirstVariable);
+void ProgEndAssembly(const std::string &filePath);
+void MainInitAssembly(const std::string &filePath);
+void MainEndAssembly(const std::string &filePath);
 
 #endif // FUNCTIONS_H

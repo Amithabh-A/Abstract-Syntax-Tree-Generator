@@ -26,11 +26,11 @@ lex :
 
 compileLinux : 
 	echo "Compiling for Linux"
-	g++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp src/codegen.cpp -I src/functions.h -I include/compiler.h -o bin/compiler
+	g++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp src/codegen.cpp -I src/functions.h -I include/compiler.h -o bin/compiler.out
 
 compileMac : 
 	echo "Compiling for Mac"
-	clang++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp src/codegen.cpp -I src/functions.h -I include/compiler.h -o bin/compiler
+	clang++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp src/codegen.cpp -I src/functions.h -I include/compiler.h -o bin/compiler.out
 
 run : clear execute
 
@@ -38,16 +38,16 @@ mdebug: clear macDebugger
 ldebug: clear linuxDebugger
 
 macDebugger : 
-	gdb ./bin/compiler 
+	gdb ./bin/compiler.out
 
 linuxDebugger : 
-	lldb ./bin/compiler 
+	lldb ./bin/compiler.out
 
 execute:
-	./bin/compiler < test/input.sil > test/output.txt
+	./bin/compiler.out test/input.sil > test/output.txt
 
 clean : 
-	rm src/compiler.hh src/compiler.cc bin/compiler src/lex.yy.c 
-	rm -rf bin/compiler.dSYM
+	rm src/compiler.hh src/compiler.cc bin/compiler.out src/lex.yy.c 
+	rm -rf bin/compiler.out.dSYM
 	rm -rf bin
 	rm -rf test/codegen.s

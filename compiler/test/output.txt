@@ -1,3 +1,5 @@
+File 'test/input.s' created successfully.
+test/input.s
 
 
 

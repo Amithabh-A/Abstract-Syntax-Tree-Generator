@@ -1,5 +1,6 @@
 #include "../include/functions.h"
 
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <string.h>
@@ -508,4 +509,20 @@ void setSymbolValue(
     unordered_map<string, std::variant<int, bool>> symbol_table) {
   symbol_table[name] = value;
   int x = getIntValue(getSymbolValue(name, symbol_table));
+}
+
+void createFile(std::string &fileName) {
+  fileName.pop_back();
+  fileName.pop_back();
+
+  const std::string filePath = fileName;
+
+  std::ofstream file(filePath);
+  if (file.is_open()) {
+    std::cout << "File '" << filePath << "' created successfully." << std::endl;
+    // Optionally, you can write something into the file here
+    file.close();
+  } else {
+    std::cerr << "Unable to create file '" << filePath << "'." << std::endl;
+  }
 }

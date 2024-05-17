@@ -8,6 +8,7 @@
 #include<iostream>
 void yyerror(char *);
 char c;
+extern FILE *yyin;
 %}
 
 %option noyywrap

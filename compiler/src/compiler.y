@@ -2,6 +2,7 @@
 #include "../include/functions.h"
 #include <climits>
 #define parse.error verbose
+extern FILE *yyin;
 #define YYDEBUG 1
 #include<iostream>
 #include<string>
@@ -343,14 +344,35 @@ void yyerror ( char  *s) {
    fprintf (stderr, "%s\n", s);
  }
 
-int main(){
-extern int yydebug;
-// yydebug = 1;
-yyparse();
-// cout<<"Size of statement list : "<<statement_list.size()<<"\n";
-// NodeImage(globalStatementList);
-cout<<"\n\n\nprintTree\n";
-printTree(globalStatementList, Prog);
-codegen(globalStatementList);
-if(globalStatementList == NULL)cout<<"haha\n root is null\n";
+int main(int argc, char *argv[]){
+  if(argc != 2){
+    throw std::runtime_error("Usage : ./bin/compiler <path to .sil file>");
+    return 1;
+  }
+
+  std::string filePath = argv[1];
+  createFile(filePath);
+
+  cout << filePath << "\n";
+
+  FILE *inputFile = fopen(argv[1], "r");
+  if (inputFile == NULL) {
+    throw std::runtime_error("File not found");
+    return 1;
+  }
+
+  yyin = inputFile;
+
+
+  extern int yydebug;
+  // yydebug = 1;
+  yyparse();
+  // cout<<"Size of statement list : "<<statement_list.size()<<"\n";
+  // NodeImage(globalStatementList);
+  cout<<"\n\n\nprintTree\n";
+  printTree(globalStatementList, Prog);
+  codegen(globalStatementList, filePath);
+  if(globalStatementList == NULL)cout<<"haha\n root is null\n";
+  fclose(inputFile);
+  return 0;
 }
