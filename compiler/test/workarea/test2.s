@@ -36,7 +36,7 @@ main:
 	sw	$fp,4($sp)
 	move	$fp,$sp
 	lui	$2,%hi(a)
-	li	$3,2			# 0x2
+	li	$3,9			# 0x9
 	sw	$3,%lo(a)($2)
 	move	$2,$0
 	move	$sp,$fp

@@ -5,6 +5,8 @@ BINDIR = /bin
 
 all: linux
 
+shot: all run 
+
 linux : create clear yacc lex compileLinux
 mac : create clear yacc lex compileMac
 
