@@ -1,5 +1,4 @@
-# Assignment 3
+# Assignment 4
 
-* Given testcases working
-* whole design is converted to a simple and better design
-* AST printing function rewritten
+- Compatible with only assignment 3 testcases
+- Generate Assembly code for declaration stmts and main program structure.
