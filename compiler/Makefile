@@ -3,8 +3,10 @@ BINDIR = /bin
 
 .PHONY: create_bin_dir
 
-mac : create clear yacc lex compileMac
+all: linux
+
 linux : create clear yacc lex compileLinux
+mac : create clear yacc lex compileMac
 
 create:
 	mkdir -p bin
@@ -23,9 +25,11 @@ lex :
 	mv lex.yy.c src/
 
 compileLinux : 
-	g++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp -I include/compiler.h -o bin/compiler
+	echo "Compiling for Linux"
+	g++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp src/codegen.cpp -I src/functions.h -I include/compiler.h -o bin/compiler
 
 compileMac : 
+	echo "Compiling for Mac"
 	clang++ -g -std=c++17 src/lex.yy.c src/compiler.cc src/functions.cpp src/codegen.cpp -I src/functions.h -I include/compiler.h -o bin/compiler
 
 run : clear execute

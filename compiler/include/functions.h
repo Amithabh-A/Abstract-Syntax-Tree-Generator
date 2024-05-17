@@ -8,6 +8,8 @@
 #include <string>
 #include <unordered_map>
 #include <variant>
+#include <limits.h>
+#include <vector>
 #define UNDEFINED INT_MAX
 #define NOT_INITIALIZED INT_MIN
 
@@ -56,7 +58,13 @@ void writeLine(std::string str = "<EMPTY STRING>",
                const std::string &filePath = "test/codegen.s");
 void codegen(node *ast);
 
+vector<pair<type, pair<string, int>>> collectDeclarationNodes(node *GdeclSec);
+
 void ProgInitAssembly();
+void insertVariable(string name, int value, bool isFirstVariable);
 void ProgEndAssembly();
+void MainInitAssembly();
+void MainEndAssembly();
+
 
 #endif // FUNCTIONS_H

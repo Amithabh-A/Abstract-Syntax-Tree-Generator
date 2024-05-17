@@ -2,3 +2,7 @@
 < 	.file	1 "test1.c"
 ---
 > 	.file	1 "test2.c"
+37a38,40
+> 	lui	$2,%hi(a)
+> 	li	$3,2			# 0x2
+> 	sw	$3,%lo(a)($2)

@@ -1,7 +1,5 @@
 #include<stdio.h>
-int a;
-int b;
+int a,b;
 
-int main() {
-    return 0;
+int main(){
 }
