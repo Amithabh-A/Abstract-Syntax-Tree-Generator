@@ -18,11 +18,7 @@ Amithabh A
   ```
 - Now, the compiler is generated in `bin/compiler`.
 
-- To run compiler on an input .sil file, run
-
-  ```
-  ./bin/compiler <relative-path-to-input-sil-file>
-  ```
+- To run compiler on an input .sil file, run `./bin/compiler <relative-path-to-input-sil-file>`
 
   Example:
 
