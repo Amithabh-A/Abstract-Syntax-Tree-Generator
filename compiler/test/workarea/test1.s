@@ -19,6 +19,54 @@ a:
 	.size	b, 4
 b:
 	.space	4
+	.globl	c
+	.align	2
+	.type	c, @object
+	.size	c, 4
+c:
+	.space	4
+	.globl	d
+	.align	2
+	.type	d, @object
+	.size	d, 4
+d:
+	.space	4
+	.globl	e
+	.align	2
+	.type	e, @object
+	.size	e, 4
+e:
+	.space	4
+	.globl	f
+	.align	2
+	.type	f, @object
+	.size	f, 4
+f:
+	.space	4
+	.globl	g
+	.align	2
+	.type	g, @object
+	.size	g, 4
+g:
+	.space	4
+	.globl	h
+	.align	2
+	.type	h, @object
+	.size	h, 4
+h:
+	.space	4
+	.globl	i
+	.align	2
+	.type	i, @object
+	.size	i, 4
+i:
+	.space	4
+	.globl	j
+	.align	2
+	.type	j, @object
+	.size	j, 4
+j:
+	.space	4
 	.text
 	.align	2
 	.globl	main
@@ -35,6 +83,33 @@ main:
 	addiu	$sp,$sp,-8
 	sw	$fp,4($sp)
 	move	$fp,$sp
+	lui	$2,%hi(a)
+	li	$3,1			# 0x1
+	sw	$3,%lo(a)($2)
+	lui	$2,%hi(b)
+	li	$3,2			# 0x2
+	sw	$3,%lo(b)($2)
+	lui	$2,%hi(c)
+	li	$3,3			# 0x3
+	sw	$3,%lo(c)($2)
+	lui	$2,%hi(d)
+	li	$3,4			# 0x4
+	sw	$3,%lo(d)($2)
+	lui	$2,%hi(e)
+	li	$3,5			# 0x5
+	sw	$3,%lo(e)($2)
+	lui	$2,%hi(f)
+	li	$3,6			# 0x6
+	sw	$3,%lo(f)($2)
+	lui	$2,%hi(g)
+	li	$3,7			# 0x7
+	sw	$3,%lo(g)($2)
+	lui	$2,%hi(h)
+	li	$3,8			# 0x8
+	sw	$3,%lo(h)($2)
+	lui	$2,%hi(i)
+	li	$3,9			# 0x9
+	sw	$3,%lo(i)($2)
 	move	$2,$0
 	move	$sp,$fp
 	lw	$fp,4($sp)

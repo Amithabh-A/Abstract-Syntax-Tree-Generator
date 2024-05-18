@@ -2,7 +2,33 @@
 < 	.file	1 "test1.c"
 ---
 > 	.file	1 "test2.c"
-37a38,40
+112a113,141
+> 	lui	$2,%hi(a)
+> 	lw	$3,%lo(a)($2)
 > 	lui	$2,%hi(b)
-> 	li	$3,5			# 0x5
-> 	sw	$3,%lo(b)($2)
+> 	lw	$2,%lo(b)($2)
+> 	addu	$3,$3,$2
+> 	lui	$2,%hi(c)
+> 	lw	$2,%lo(c)($2)
+> 	addu	$3,$3,$2
+> 	lui	$2,%hi(d)
+> 	lw	$2,%lo(d)($2)
+> 	addu	$3,$3,$2
+> 	lui	$2,%hi(e)
+> 	lw	$2,%lo(e)($2)
+> 	addu	$3,$3,$2
+> 	lui	$2,%hi(f)
+> 	lw	$2,%lo(f)($2)
+> 	addu	$3,$3,$2
+> 	lui	$2,%hi(g)
+> 	lw	$2,%lo(g)($2)
+> 	addu	$3,$3,$2
+> 	lui	$2,%hi(h)
+> 	lw	$2,%lo(h)($2)
+> 	addu	$3,$3,$2
+> 	lui	$2,%hi(i)
+> 	lw	$2,%lo(i)($2)
+> 	addu	$2,$3,$2
+> 	addiu	$3,$2,10
+> 	lui	$2,%hi(j)
+> 	sw	$3,%lo(j)($2)
