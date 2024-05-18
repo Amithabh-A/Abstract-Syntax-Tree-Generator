@@ -254,6 +254,23 @@ int *get_array(string name, map<string, pair<int *, int>> array_table) ;
 	assign_stmt:	var_expr '=' expr
         {
           $$ = createNode(assignStmt, UNDEFINED, NULL, $1, NULL, NULL, $3);
+
+          
+          using VariantType = std::variant<std::string, std::pair<std::string, int>, int>;
+
+          vector<VariantType> v = collectRHSnodes($3);
+          for(auto i : v) {
+            if(std::holds_alternative<std::string>(i)) {
+              cout<<"string : "<<std::get<std::string>(i)<<"\n";
+            } else if(std::holds_alternative<std::pair<std::string, int>>(i)) {
+              cout<<"pair : "<<std::get<std::pair<std::string, int>>(i).first<<" "<<std::get<std::pair<std::string, int>>(i).second<<"\n";
+            } else if(std::holds_alternative<int>(i)) {
+              cout<<"int : "<<std::get<int>(i)<<"\n";
+            }
+          }
+
+
+
           // trying to assign here : 
           // switch($1->Type) {
           //   case var:

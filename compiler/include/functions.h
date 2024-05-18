@@ -68,7 +68,8 @@ void insertVariable(const std::string &filePath, string name, int value,
                     bool isFirstVariable);
 void ProgEndAssembly(const std::string &filePath);
 void MainInitAssembly(const std::string &filePath);
-vector<std::variant<std::string, std::pair<std::string, int>, int>> collectRHSnodes(node *expr) ;
+vector<std::variant<std::string, std::pair<std::string, int>, int>>
+collectRHSnodes(node *expr);
 void MainEndAssembly(const std::string &filePath);
 
 #endif // FUNCTIONS_H

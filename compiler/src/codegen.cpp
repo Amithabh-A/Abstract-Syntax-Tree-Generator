@@ -265,7 +265,7 @@ void codegen(node *ast, const std::string &filePath) {
   }
 
   // return stmt
-  // if the statement is return 0, nothing is there to write. 
+  // if the statement is return 0, nothing is there to write.
   node *ret_stmt = mymain->returnStmt;
 
   MainEndAssembly(filePath);
@@ -273,25 +273,24 @@ void codegen(node *ast, const std::string &filePath) {
   ProgEndAssembly(filePath);
 }
 
-
-
-
-vector<std::variant<std::string, std::pair<std::string, int>, int>> collectRHSnodes(node *expr) {
+vector<std::variant<std::string, std::pair<std::string, int>, int>>
+collectRHSnodes(node *expr) {
   // Define the variant type
-  using VariantType = std::variant<std::string, std::pair<std::string, int>, int>;
+  using VariantType =
+      std::variant<std::string, std::pair<std::string, int>, int>;
 
-  if(expr->Type == constant){
+  if (expr->Type == constant) {
     return vector<VariantType>{getIntValue(expr->value)};
   }
 
-  if(expr->Type == var){
+  if (expr->Type == var) {
     return vector<VariantType>{string(expr->name)};
   }
 
-  if(expr->Type == Array){
-    return vector<VariantType>{make_pair(string(expr->name), getIntValue(expr->value))};
+  if (expr->Type == Array) {
+    return vector<VariantType>{
+        make_pair(string(expr->name), getIntValue(expr->value))};
   }
-
 
   vector<VariantType> left = collectRHSnodes(expr->lt);
   vector<VariantType> right = collectRHSnodes(expr->rt);

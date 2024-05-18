@@ -1,0 +1,10 @@
+decl
+integer a,b,d;
+enddecl
+
+begin
+  a = 1;
+  b = 2;
+  c = a + 2 + 5 + b;
+  return 0;
+end
