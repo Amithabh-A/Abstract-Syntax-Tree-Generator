@@ -2,9 +2,5 @@
 int a, b,c,d, e, f, g, h, i, j;
 
 int main(){
-  // a = 10; // constant
-  // b = a;
-  // c = b;
-  // d = 15+b+c; // constant
   j = a + b + c + d;
 }

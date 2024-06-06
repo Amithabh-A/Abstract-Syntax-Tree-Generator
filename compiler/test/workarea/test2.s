@@ -84,63 +84,16 @@ main:
 	sw	$fp,4($sp)
 	move	$fp,$sp
 	lui	$2,%hi(a)
-	li	$3,1			# 0x1
-	sw	$3,%lo(a)($2)
-	lui	$2,%hi(b)
-	li	$3,2			# 0x2
-	sw	$3,%lo(b)($2)
-	lui	$2,%hi(c)
-	li	$3,3			# 0x3
-	sw	$3,%lo(c)($2)
-	lui	$2,%hi(d)
-	li	$3,4			# 0x4
-	sw	$3,%lo(d)($2)
-	lui	$2,%hi(e)
-	li	$3,5			# 0x5
-	sw	$3,%lo(e)($2)
-	lui	$2,%hi(f)
-	li	$3,6			# 0x6
-	sw	$3,%lo(f)($2)
-	lui	$2,%hi(g)
-	li	$3,7			# 0x7
-	sw	$3,%lo(g)($2)
-	lui	$2,%hi(h)
-	li	$3,8			# 0x8
-	sw	$3,%lo(h)($2)
-	lui	$2,%hi(i)
-	li	$3,9			# 0x9
-	sw	$3,%lo(i)($2)
-
-	lui	$2,%hi(a)
 	lw	$3,%lo(a)($2)
 	lui	$2,%hi(b)
 	lw	$2,%lo(b)($2)
-	addu	$3,$3,$2
-	lui	$2,%hi(c)
-	lw	$2,%lo(c)($2)
-	addu	$3,$3,$2
+	addu	$2,$3,$2
+	addiu	$3,$2,3
 	lui	$2,%hi(d)
 	lw	$2,%lo(d)($2)
 	addu	$3,$3,$2
-	lui	$2,%hi(e)
-	lw	$2,%lo(e)($2)
-	addu	$3,$3,$2
-	lui	$2,%hi(f)
-	lw	$2,%lo(f)($2)
-	addu	$3,$3,$2
-	lui	$2,%hi(g)
-	lw	$2,%lo(g)($2)
-	addu	$3,$3,$2
-	lui	$2,%hi(h)
-	lw	$2,%lo(h)($2)
-	addu	$3,$3,$2
-	lui	$2,%hi(i)
-	lw	$2,%lo(i)($2)
-	addu	$2,$3,$2
-	addiu	$3,$2,10
 	lui	$2,%hi(j)
 	sw	$3,%lo(j)($2)
-
 	move	$2,$0
 	move	$sp,$fp
 	lw	$fp,4($sp)

@@ -1,5 +1,13 @@
 File 'test/input.s' created successfully.
 test/input.s
+int : 0
+int : 0
+string : test
+string : test
+int : 1
+pair : array 2147483647
+int : 1
+int : 9
 
 
 

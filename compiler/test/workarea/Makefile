@@ -7,3 +7,6 @@ d:
 	rm diff.txt
 	touch diff.txt
 	diff test1.s test2.s >> diff.txt
+
+vd:
+	vimdiff test1.s test2.s
